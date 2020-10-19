@@ -16,5 +16,16 @@
   "bugs": {
     "url": "https://github.com/williamsonm/cortex-back-end-developer-challenge/issues"
   },
-  "homepage": "https://github.com/williamsonm/cortex-back-end-developer-challenge#readme"
+  "homepage": "https://github.com/williamsonm/cortex-back-end-developer-challenge#readme",
+  "devDependencies": {
+    "typescript": "^4.0.3",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.8",
+    "jest": "^26.5.3",
+    "ts-jest": "^26.4.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "redux": "^4.0.5"
+  }
 }
