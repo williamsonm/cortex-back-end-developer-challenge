@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "258d26f8-4c84-428b-95d9-9a1084a6685e",
+		"name": "Cortex",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "save",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fde68bb6-5794-450f-a397-d3d812222332",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"characterId\", jsonData.characterId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Briv\",\n  \"level\": 5,\n  \"classes\": [\n    {\n    \"name\":\"fighter\",\n    \"hitDiceValue\":10,\n    \"classLevel\":3\n    },\n    {\n      \"name\":\"wizard\",\n      \"hitDiceValue\":6,\n      \"classLevel\":2\n    }\n  ],\n  \"stats\":{\n    \"strength\":15,\n    \"dexterity\":12,\n    \"constitution\":14,\n    \"intelligence\":13,\n    \"wisdom\":10,\n    \"charisma\":8\n  },\n  \"items\":[\n    {\n      \"name\":\"Ioun Stone of Fortitude\",\n      \"modifier\":{\n        \"affectedObject\":\"stats\",\n        \"affectedValue\":\"constitution\",\n        \"value\":2\n      }\n    }\n  ],\n  \"defenses\":[\n    {\n      \"type\":\"fire\",\n      \"defense\":\"immunity\"\n    },\n    {\n      \"type\":\"slashing\",\n      \"defense\":\"resistance\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}/v1/save",
+					"host": [
+						"{{backend}}"
+					],
+					"path": [
+						"v1",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "heal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"characterId\": \"{{characterId}}\",\n\t\"healValue\": 15\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}/v1/heal",
+					"host": [
+						"{{backend}}"
+					],
+					"path": [
+						"v1",
+						"heal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "damage - with resistance",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"characterId\": \"{{characterId}}\",\n\t\"damageValue\": 20,\n\t\"damageType\": \"slashing\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}/v1/damage",
+					"host": [
+						"{{backend}}"
+					],
+					"path": [
+						"v1",
+						"damage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "damage - with immunity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"characterId\": \"{{characterId}}\",\n\t\"damageValue\": 20,\n\t\"damageType\": \"fire\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}/v1/damage",
+					"host": [
+						"{{backend}}"
+					],
+					"path": [
+						"v1",
+						"damage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "damage - with full damage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"characterId\": \"{{characterId}}\",\n\t\"damageValue\": 20,\n\t\"damageType\": \"piercing\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}/v1/damage",
+					"host": [
+						"{{backend}}"
+					],
+					"path": [
+						"v1",
+						"damage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "temp HP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"characterId\": \"{{characterId}}\",\n\t\"temporaryHitPoints\": 15\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}/v1/tempHP",
+					"host": [
+						"{{backend}}"
+					],
+					"path": [
+						"v1",
+						"tempHP"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e2835f28-78ef-4b6e-93a4-d4f7cf404f2d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "76d92ae3-5bbc-467b-940f-da49d1ee076b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "834a1d8c-0db3-4e30-b0d6-7e0de2be7294",
+			"key": "backend",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
