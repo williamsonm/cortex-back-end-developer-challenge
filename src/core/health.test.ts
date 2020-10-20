@@ -5,8 +5,9 @@ import {
   hpForClasses,
   calcHP,
   calcDamage,
-  updateHealth,
   addTempHP,
+  increaseHealth,
+  decreaseHealth,
 } from './health';
 
 const stoneOfFortitude = {
@@ -135,7 +136,7 @@ describe('healing', () => {
       currentHitPoints: 45,
       temporaryHitPoints: 0,
     };
-    const result = updateHealth(health, 30);
+    const result = increaseHealth(health, 30);
     expect(result.currentHitPoints).toBe(health.maximumHitPoints);
   });
 
@@ -145,7 +146,7 @@ describe('healing', () => {
       currentHitPoints: 50,
       temporaryHitPoints: 10,
     };
-    const result = updateHealth(health, 30);
+    const result = increaseHealth(health, 30);
     expect(result.temporaryHitPoints).toBe(health.temporaryHitPoints);
   });
 });
@@ -157,7 +158,7 @@ describe('damage', () => {
       currentHitPoints: 10,
       temporaryHitPoints: 0,
     };
-    const result = updateHealth(health, -30);
+    const result = decreaseHealth(health, -30);
     expect(result.currentHitPoints).toBe(0);
   });
 
@@ -167,10 +168,21 @@ describe('damage', () => {
       currentHitPoints: 10,
       temporaryHitPoints: 20,
     };
-    const result = updateHealth(health, -health.temporaryHitPoints);
+    const result = decreaseHealth(health, -health.temporaryHitPoints);
     expect(result.temporaryHitPoints).toBe(0);
     expect(result.currentHitPoints).toBe(health.currentHitPoints);
   });
+
+  it('partially damaging temporary hit points should leave current hit points untouched', () => {
+    const health: Health = {
+      maximumHitPoints: 50,
+      currentHitPoints: 50,
+      temporaryHitPoints: 20
+    }
+    const result = decreaseHealth(health, -10);
+    expect(result.temporaryHitPoints).toBe(10);
+    expect(result.currentHitPoints).toBe(health.currentHitPoints);
+  })
 
   it('damage exceeding temporary hit points should then reduce current max', () => {
     const health: Health = {
@@ -179,7 +191,7 @@ describe('damage', () => {
       temporaryHitPoints: 20,
     };
     const damageValue = -40;
-    const result = updateHealth(health, damageValue);
+    const result = decreaseHealth(health, damageValue);
     const expected = health.currentHitPoints + health.temporaryHitPoints + damageValue;
     expect(result.temporaryHitPoints).toBe(0);
     expect(result.currentHitPoints).toBe(expected);

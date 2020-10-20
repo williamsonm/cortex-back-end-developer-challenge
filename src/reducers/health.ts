@@ -1,4 +1,4 @@
-import { updateHealth, addTempHP } from "../core/health";
+import { addTempHP, increaseHealth, decreaseHealth } from "../core/health";
 import { CharacterId, Health } from "../data";
 import { DamageAction, HealAction, HealthActions, SaveAction, TempHPAction } from "../actions/health";
 
@@ -17,7 +17,7 @@ function healCharacter(prevState: HealthState, action: HealAction): HealthState 
   const prevHealth = health.get(characterId)
   if (prevHealth !== undefined) {
     console.log(`healing characterId: ${characterId} +${value}`)
-    health.set(characterId, updateHealth(prevHealth, value));
+    health.set(characterId, increaseHealth(prevHealth, value));
   }
   return {
     ...prevState,
@@ -32,7 +32,7 @@ function damageCharacter(prevState: HealthState, action: DamageAction): HealthSt
   const prevHealth = health.get(characterId)
   if (prevHealth !== undefined) {
     console.log(`damaging characterId: ${characterId} ==> ${actualDamage}`)
-    health.set(characterId, updateHealth(prevHealth, -actualDamage));
+    health.set(characterId, decreaseHealth(prevHealth, -actualDamage));
   }
   return {
     ...prevState,
