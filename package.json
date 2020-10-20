@@ -24,6 +24,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.8",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "eslint": "^7.11.0",
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "uuid": "^8.3.1"
   }
 }
