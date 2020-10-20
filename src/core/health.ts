@@ -1,4 +1,4 @@
-import { Character, CharacterStats, CharacterClass, HitPoints, DamageType, Health, AbilityScore, Item, DefenseType, Defense } from "../data";
+import { Character, CharacterStats, CharacterClass, HitPoints, DamageType, Health, AbilityScore, Item, Defense } from "../data";
 
 // adds any stat modifiers from items
 export function calcModifiedStats(inputStats: CharacterStats, items: Item[]): CharacterStats {
@@ -97,4 +97,13 @@ export function updateHealth(health: Health, value: number): Health {
   return (value < 0)
     ? decreaseHealth(health, value)
     : increaseHealth(health, value)
+}
+
+// adds temporary hit points to a character's health, using the largest
+// value from the existing temp HP and the given value
+export function addTempHP(health: Health, value: number): Health {
+  return {
+    ...health,
+    temporaryHitPoints: Math.max(health.temporaryHitPoints, value)
+  }
 }

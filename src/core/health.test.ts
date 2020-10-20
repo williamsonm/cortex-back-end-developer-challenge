@@ -6,6 +6,7 @@ import {
   calcHP,
   calcDamage,
   updateHealth,
+  addTempHP,
 } from './health';
 
 const stoneOfFortitude = {
@@ -184,3 +185,19 @@ describe('damage', () => {
     expect(result.currentHitPoints).toBe(expected);
   });
 });
+
+describe('temporary hit points', () => {
+  it('should use the max between existing temp HP and the new temp HP', () => {
+    const health: Health = {
+      maximumHitPoints: 50,
+      currentHitPoints: 50,
+      temporaryHitPoints: 20
+    }
+    const useExisting = addTempHP(health, 10);
+    expect(useExisting.temporaryHitPoints).toBe(health.temporaryHitPoints);
+
+    const updatedValue = 40
+    const useUpdated = addTempHP(health, updatedValue);
+    expect(useUpdated.temporaryHitPoints).toBe(updatedValue);
+  })
+})
