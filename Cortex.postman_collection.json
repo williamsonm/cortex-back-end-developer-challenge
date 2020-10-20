@@ -14,7 +14,7 @@
 						"id": "fde68bb6-5794-450f-a397-d3d812222332",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.environment.set(\"characterId\", jsonData.characterId);"
+							"pm.globals.set(\"characterId\", jsonData.characterId);"
 						],
 						"type": "text/javascript"
 					}
@@ -205,7 +205,7 @@
 	],
 	"variable": [
 		{
-			"id": "834a1d8c-0db3-4e30-b0d6-7e0de2be7294",
+			"id": "98e5d036-1fb0-4028-b5ff-0aed0098860d",
 			"key": "backend",
 			"value": "http://localhost:8080",
 			"type": "string"
