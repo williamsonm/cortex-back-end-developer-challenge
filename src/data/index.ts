@@ -1,4 +1,4 @@
-export type CharacterId = number;
+export type CharacterId = string; // uuid
 
 type Name = string;
 type Level = number;
