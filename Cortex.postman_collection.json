@@ -52,7 +52,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"characterId\": \"{{characterId}}\",\n\t\"healValue\": 15\n}",
+					"raw": "{\n\t\"characterId\": \"{{characterId}}\",\n\t\"healValue\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -205,7 +205,7 @@
 	],
 	"variable": [
 		{
-			"id": "98e5d036-1fb0-4028-b5ff-0aed0098860d",
+			"id": "2b3ffd5a-d5e3-4c82-b9ff-270de428c3fc",
 			"key": "backend",
 			"value": "http://localhost:8080",
 			"type": "string"
