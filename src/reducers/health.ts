@@ -22,7 +22,7 @@ function healCharacter(prevState: HealthState, action: HealAction): HealthState 
   const { health } = prevState;
   const prevHealth = health.get(characterId);
   if (prevHealth !== undefined) {
-    console.log(`healing characterId: ${characterId} +${value}`);
+    console.log(`healing characterId: ${characterId} ==> ${value}`);
     health.set(characterId, increaseHealth(prevHealth, value));
   }
   return {
@@ -37,7 +37,7 @@ function damageCharacter(prevState: HealthState, action: DamageAction): HealthSt
   const { health } = prevState;
   const prevHealth = health.get(characterId);
   if (prevHealth !== undefined) {
-    console.log(`damaging characterId: ${characterId} ==> ${actualDamage}`);
+    console.log(`damaging characterId: ${characterId} => ${actualDamage}`);
     health.set(characterId, decreaseHealth(prevHealth, -actualDamage));
   }
   return {

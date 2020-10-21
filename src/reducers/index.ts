@@ -25,7 +25,8 @@ const logger = (store) => (next) => (action) => {
   return result;
 };
 
-export const store = createStore(
+// redux store for character and health information
+const store = createStore(
   combineReducers({
     characters: characterReducer,
     health: healthReducer,
@@ -33,12 +34,13 @@ export const store = createStore(
   applyMiddleware(logger)
 );
 
+// returns the character sheet for the specified id, if it exists.
 const getCharacter = (characterId: CharacterId): Character | undefined => {
   const { characters } = store.getState().characters;
-  const character = characters.get(characterId);
-  return character;
+  return characters.get(characterId);
 };
 
+// returns the current health information for the specified id, if it exists.
 const getHealth = (characterId: CharacterId): Health | undefined => {
   const { health } = store.getState().health;
   return health.get(characterId);

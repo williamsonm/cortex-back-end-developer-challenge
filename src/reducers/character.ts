@@ -9,6 +9,7 @@ const initialState: CharacterState = {
   characters: new Map(),
 };
 
+// adds a new character to the store, using the provided characterId
 function saveCharacter(prevState: CharacterState, action: SaveAction): CharacterState {
   const { characterId, character } = action;
   const characters = prevState.characters;
@@ -20,7 +21,7 @@ function saveCharacter(prevState: CharacterState, action: SaveAction): Character
 }
 export const reducer = (prevState = initialState, action: CharacterActions): CharacterState => {
   switch (action.type) {
-    case 'SAVE':
+    case 'CHARACTER_SAVE':
       return saveCharacter(prevState, action);
     default:
       return prevState;

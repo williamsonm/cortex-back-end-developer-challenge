@@ -77,6 +77,7 @@ function calcDefenseModifier(defenses: Defense[], damageType: DamageType): numbe
   }
 }
 
+// returns the actual damage a character will take, using their defense modifier for the given damage type
 export function calcDamage(
   character: Character,
   damageType: DamageType,
@@ -85,7 +86,7 @@ export function calcDamage(
   return damageValue * calcDefenseModifier(character.defenses, damageType);
 }
 
-// damage affects temporary hit points first, then reduces current hit points.
+// decreases a characters health, affecting temporary hit points first, then reducing current hit points.
 // damaging past zero will just return zero
 export function decreaseHealth(health: Health, inputValue: number): Health {
   const damageValue = Math.abs(inputValue);
@@ -103,7 +104,7 @@ export function decreaseHealth(health: Health, inputValue: number): Health {
   };
 }
 
-// healing ignores temporary hit points, healing past max just returns max
+// heals a character, ignoring temporary hit points, and healing past max just returns max
 export function increaseHealth(health: Health, value: number): Health {
   const currentHitPoints = Math.min(health.currentHitPoints + value, health.maximumHitPoints);
   return {

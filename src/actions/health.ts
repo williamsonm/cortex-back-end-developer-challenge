@@ -33,6 +33,7 @@ export interface TempHPAction extends Action {
   temporaryHitPoints: HitPoints;
 }
 
+// calculates the character hit points from the given character sheet when creating the action
 export function healthSaveAction(characterId: CharacterId, character: Character): SaveAction {
   const maximumHitPoints = calcHP(character);
   const health: Health = {
@@ -55,6 +56,8 @@ export function healAction(characterId: CharacterId, value: number): HealAction 
   };
 }
 
+// calculates the actual damage a character will take when creating the action,
+// based off any items they may have and the incoming damage type.
 export const damageAction = (
   characterId: CharacterId,
   character: Character,
