@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "258d26f8-4c84-428b-95d9-9a1084a6685e",
+		"_postman_id": "7baa9e6f-8062-488d-86de-7018e5f18d26",
 		"name": "Cortex",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,12 @@
 						"id": "fde68bb6-5794-450f-a397-d3d812222332",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.globals.set(\"characterId\", jsonData.characterId);"
+							"pm.globals.set(\"characterId\", jsonData.characterId);",
+							"",
+							"pm.test(\"Verify characterId\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.characterId).to.be.a(\"string\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -47,6 +52,23 @@
 		},
 		{
 			"name": "heal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "284c3fbf-ab41-44df-bf06-435ef334f323",
+						"exec": [
+							"pm.test(\"Response fields are valid\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.currentHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.maximumHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.temporaryHitPoints).to.be.a(\"number\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -73,7 +95,114 @@
 			"response": []
 		},
 		{
+			"name": "heal - incomplete request body",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ce9255b7-6ac5-4e7b-9714-9322d1c8ed5d",
+						"exec": [
+							"pm.test(\"incomplete request body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eql(\"healValue is missing\");",
+							"});",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"characterId\": \"{{characterId}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}/v1/heal",
+					"host": [
+						"{{backend}}"
+					],
+					"path": [
+						"v1",
+						"heal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "heal - invalid characterId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7c7c973a-09b4-411a-84f8-2264be2f603a",
+						"exec": [
+							"pm.test(\"Not found\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eql(\"characterId not found\");",
+							"});",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"characterId\": \"does-not-exist\",\n\t\"healValue\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{backend}}/v1/heal",
+					"host": [
+						"{{backend}}"
+					],
+					"path": [
+						"v1",
+						"heal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "damage - with resistance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9a766376-6caa-4045-927d-5a017656d5f5",
+						"exec": [
+							"pm.test(\"Response fields are valid\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.currentHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.maximumHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.temporaryHitPoints).to.be.a(\"number\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -101,6 +230,23 @@
 		},
 		{
 			"name": "damage - with immunity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26095ac7-0edd-47b9-952e-710162d5a20f",
+						"exec": [
+							"pm.test(\"Response fields are valid\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.currentHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.maximumHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.temporaryHitPoints).to.be.a(\"number\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -128,6 +274,23 @@
 		},
 		{
 			"name": "damage - with full damage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3f06880-c3bb-41b2-a337-900d4dcd150f",
+						"exec": [
+							"pm.test(\"Response fields are valid\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.currentHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.maximumHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.temporaryHitPoints).to.be.a(\"number\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -155,6 +318,23 @@
 		},
 		{
 			"name": "temp HP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "de940bd9-facd-413a-9288-aaa1a65f1e42",
+						"exec": [
+							"pm.test(\"Response fields are valid\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.currentHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.maximumHitPoints).to.be.a(\"number\");",
+							"    pm.expect(jsonData.temporaryHitPoints).to.be.a(\"number\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
