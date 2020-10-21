@@ -1,4 +1,4 @@
-import { CharacterId, DamageType, HitPoints } from ".";
+import { CharacterId, DamageType, HitPoints } from '.';
 
 export interface HealRequest {
   characterId: CharacterId;

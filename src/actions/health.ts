@@ -1,9 +1,9 @@
-import { calcDamage, calcHP } from "../core/health"
-import { Character, CharacterId, DamageType, Health, HitPoints } from "../data"
+import { calcDamage, calcHP } from '../core/health';
+import { Character, CharacterId, DamageType, Health, HitPoints } from '../data';
 
-type HealthActionTypes = 'HEALTH_SAVE' | 'HEALTH_HEAL' | 'HEALTH_DAMAGE' | 'HEALTH_TEMP_HP'
+type HealthActionTypes = 'HEALTH_SAVE' | 'HEALTH_HEAL' | 'HEALTH_DAMAGE' | 'HEALTH_TEMP_HP';
 
-export type HealthActions = SaveAction | HealAction | DamageAction | TempHPAction
+export type HealthActions = SaveAction | HealAction | DamageAction | TempHPAction;
 
 interface Action {
   type: HealthActionTypes;
@@ -38,34 +38,42 @@ export function healthSaveAction(characterId: CharacterId, character: Character)
   const health: Health = {
     currentHitPoints: maximumHitPoints,
     maximumHitPoints,
-    temporaryHitPoints: 0
-  }
+    temporaryHitPoints: 0,
+  };
   return {
     type: 'HEALTH_SAVE',
     characterId,
-    health
-  }
+    health,
+  };
 }
 
 export function healAction(characterId: CharacterId, value: number): HealAction {
   return {
     type: 'HEALTH_HEAL',
     characterId,
-    value
-  }
+    value,
+  };
 }
 
-export const damageAction = (characterId: CharacterId, character: Character, damageType: DamageType, damageValue: number): DamageAction => {
+export const damageAction = (
+  characterId: CharacterId,
+  character: Character,
+  damageType: DamageType,
+  damageValue: number
+): DamageAction => {
   const actualDamage = calcDamage(character, damageType, damageValue);
-  return ({
+  return {
     type: 'HEALTH_DAMAGE',
     characterId,
-    actualDamage
-  })
-}
+    actualDamage,
+  };
+};
 
-export const temporaryHPAction = (characterId: CharacterId, temporaryHitPoints: HitPoints): TempHPAction => ({
+export const temporaryHPAction = (
+  characterId: CharacterId,
+  temporaryHitPoints: HitPoints
+): TempHPAction => ({
   type: 'HEALTH_TEMP_HP',
   characterId,
-  temporaryHitPoints
-})
+  temporaryHitPoints,
+});

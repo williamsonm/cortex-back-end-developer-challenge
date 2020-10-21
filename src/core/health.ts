@@ -1,4 +1,14 @@
-import { Character, CharacterStats, CharacterClass, HitPoints, DamageType, Health, AbilityScore, Item, Defense } from "../data";
+import {
+  Character,
+  CharacterStats,
+  CharacterClass,
+  HitPoints,
+  DamageType,
+  Health,
+  AbilityScore,
+  Item,
+  Defense,
+} from '../data';
 
 // adds any stat modifiers from items
 export function calcModifiedStats(inputStats: CharacterStats, items: Item[]): CharacterStats {
@@ -31,7 +41,7 @@ const hitDieAdvancement = {
 export function hpForClasses(stats: CharacterStats, classes: CharacterClass[]): HitPoints {
   const conMod = abilityModifier(stats.constitution);
   return classes.reduce((total, cl) => {
-    let classTotal = 0
+    let classTotal = 0;
     let classLevel = cl.classLevel;
     if (total === 0 && classLevel > 0) {
       // first level uses the full hit die
@@ -42,7 +52,7 @@ export function hpForClasses(stats: CharacterStats, classes: CharacterClass[]): 
     const hitDie = hitDieAdvancement[cl.hitDiceValue];
     classTotal += classLevel * (hitDie + conMod);
 
-    return total + classTotal
+    return total + classTotal;
   }, 0);
 }
 
@@ -56,43 +66,50 @@ export function calcHP(character: Character): HitPoints {
 // calculates the defense modifier for the specified damage type
 // e.g. 1.0 takes full damage, 0.5 takes half-damage, 0 is immune
 function calcDefenseModifier(defenses: Defense[], damageType: DamageType): number {
-  const appliedDefense = defenses.find((d) => d.type === damageType)
+  const appliedDefense = defenses.find((d) => d.type === damageType);
   switch (appliedDefense?.defense) {
-    case 'immunity': return 0;
-    case 'resistance': return 0.5;
-    default: return 1;
+    case 'immunity':
+      return 0;
+    case 'resistance':
+      return 0.5;
+    default:
+      return 1;
   }
 }
 
-export function calcDamage(character: Character, damageType: DamageType, damageValue: number): number {
+export function calcDamage(
+  character: Character,
+  damageType: DamageType,
+  damageValue: number
+): number {
   return damageValue * calcDefenseModifier(character.defenses, damageType);
 }
 
 // damage affects temporary hit points first, then reduces current hit points.
 // damaging past zero will just return zero
 export function decreaseHealth(health: Health, inputValue: number): Health {
-  const damageValue = Math.abs(inputValue)
-  let {currentHitPoints, temporaryHitPoints} = health;
+  const damageValue = Math.abs(inputValue);
+  let { currentHitPoints, temporaryHitPoints } = health;
   if (temporaryHitPoints >= damageValue) {
     temporaryHitPoints -= damageValue;
   } else {
-    currentHitPoints -= (damageValue - temporaryHitPoints);
+    currentHitPoints -= damageValue - temporaryHitPoints;
     temporaryHitPoints = 0;
   }
   return {
     ...health,
     currentHitPoints: Math.max(currentHitPoints, 0),
-    temporaryHitPoints: Math.max(temporaryHitPoints, 0)
-  }
+    temporaryHitPoints: Math.max(temporaryHitPoints, 0),
+  };
 }
 
 // healing ignores temporary hit points, healing past max just returns max
 export function increaseHealth(health: Health, value: number): Health {
-  const currentHitPoints = Math.min(health.currentHitPoints + value, health.maximumHitPoints)
+  const currentHitPoints = Math.min(health.currentHitPoints + value, health.maximumHitPoints);
   return {
     ...health,
     currentHitPoints,
-  }
+  };
 }
 
 // adds temporary hit points to a character's health, using the largest
@@ -100,6 +117,6 @@ export function increaseHealth(health: Health, value: number): Health {
 export function addTempHP(health: Health, value: number): Health {
   return {
     ...health,
-    temporaryHitPoints: Math.max(health.temporaryHitPoints, value)
-  }
+    temporaryHitPoints: Math.max(health.temporaryHitPoints, value),
+  };
 }

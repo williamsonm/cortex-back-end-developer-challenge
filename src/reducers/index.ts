@@ -28,25 +28,24 @@ const logger = (store) => (next) => (action) => {
 export const store = createStore(
   combineReducers({
     characters: characterReducer,
-    health: healthReducer
+    health: healthReducer,
   }),
   applyMiddleware(logger)
 );
 
 const getCharacter = (characterId: CharacterId): Character | undefined => {
-  const {characters} = store.getState().characters
-  const character = characters.get(characterId)
+  const { characters } = store.getState().characters;
+  const character = characters.get(characterId);
   return character;
-}
+};
 
 const getHealth = (characterId: CharacterId): Health | undefined => {
-  const {health} = store.getState().health;
-  return health.get(characterId)
-}
+  const { health } = store.getState().health;
+  return health.get(characterId);
+};
 
 export const appStore: AppStore = {
   getCharacter,
   getHealth,
-  dispatch: store.dispatch  
-}
-
+  dispatch: store.dispatch,
+};

@@ -125,8 +125,8 @@ describe('damage types', () => {
     expect(calcDamage(briv, 'fire', 20)).toBe(0);
   });
   it('unknown damage types return full', () => {
-    expect(calcDamage(briv, 'unknown', 20)).toBe(20)
-  })
+    expect(calcDamage(briv, 'unknown', 20)).toBe(20);
+  });
 });
 
 describe('healing', () => {
@@ -177,12 +177,12 @@ describe('damage', () => {
     const health: Health = {
       maximumHitPoints: 50,
       currentHitPoints: 50,
-      temporaryHitPoints: 20
-    }
+      temporaryHitPoints: 20,
+    };
     const result = decreaseHealth(health, -10);
     expect(result.temporaryHitPoints).toBe(10);
     expect(result.currentHitPoints).toBe(health.currentHitPoints);
-  })
+  });
 
   it('damage exceeding temporary hit points should then reduce current max', () => {
     const health: Health = {
@@ -203,13 +203,13 @@ describe('temporary hit points', () => {
     const health: Health = {
       maximumHitPoints: 50,
       currentHitPoints: 50,
-      temporaryHitPoints: 20
-    }
+      temporaryHitPoints: 20,
+    };
     const useExisting = addTempHP(health, 10);
     expect(useExisting.temporaryHitPoints).toBe(health.temporaryHitPoints);
 
-    const updatedValue = 40
+    const updatedValue = 40;
     const useUpdated = addTempHP(health, updatedValue);
     expect(useUpdated.temporaryHitPoints).toBe(updatedValue);
-  })
-})
+  });
+});

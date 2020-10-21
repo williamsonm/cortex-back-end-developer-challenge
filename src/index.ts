@@ -11,37 +11,37 @@ const port = 8080;
 app.use(express.json());
 
 function checkBody<T>(body: T, keys: string[]): string | undefined {
-  let errorMessage: string | undefined
-  keys.forEach(key => {
+  let errorMessage: string | undefined;
+  keys.forEach((key) => {
     if (body[key] === undefined) {
-      errorMessage = `${key} is missing`
+      errorMessage = `${key} is missing`;
     }
-  })
-  return errorMessage
+  });
+  return errorMessage;
 }
 
 app.post('/v1/heal', (req, res) => {
   const healRequest: HealRequest = req.body;
   const errorMessage = checkBody(healRequest, ['characterId', 'healValue']);
   if (errorMessage !== undefined) {
-    res.status(400).send({error: errorMessage})
+    res.status(400).send({ error: errorMessage });
   } else {
     const { characterId, healValue } = healRequest;
     store.dispatch(healAction(characterId, healValue));
     const health = appStore.getHealth(characterId);
     if (health === undefined) {
-      res.status(404).send({error: 'characterId not found'});
+      res.status(404).send({ error: 'characterId not found' });
     } else {
-      res.send(health)
+      res.send(health);
     }
   }
 });
 
 app.post('/v1/damage', (req, res) => {
   const damageRequest: DamageRequest = req.body;
-  const errorMessage = checkBody(damageRequest, ['characterId', 'damageType', 'damageValue'])
+  const errorMessage = checkBody(damageRequest, ['characterId', 'damageType', 'damageValue']);
   if (errorMessage !== undefined) {
-    res.status(400).send({error: errorMessage})
+    res.status(400).send({ error: errorMessage });
   } else {
     const { characterId, damageType, damageValue } = damageRequest;
     const character = appStore.getCharacter(characterId);
@@ -59,9 +59,9 @@ app.post('/v1/damage', (req, res) => {
 
 app.post('/v1/tempHP', (req, res) => {
   const tempHPRequest: TempHPRequest = req.body;
-  const errorMessage = checkBody(tempHPRequest, ['characterId', 'temporaryHitPoints'])
+  const errorMessage = checkBody(tempHPRequest, ['characterId', 'temporaryHitPoints']);
   if (errorMessage !== undefined) {
-    res.status(400).send({error: errorMessage})
+    res.status(400).send({ error: errorMessage });
   } else {
     const { characterId, temporaryHitPoints } = tempHPRequest;
     store.dispatch(temporaryHPAction(characterId, temporaryHitPoints));
@@ -77,7 +77,7 @@ app.put('/v1/save', (req, res) => {
   const character: Character = req.body;
   const characterId = mkCharacterId();
   store.dispatch(saveAction(characterId, character));
-  store.dispatch(healthSaveAction(characterId, character))
+  store.dispatch(healthSaveAction(characterId, character));
   res.send({ characterId });
 });
 
