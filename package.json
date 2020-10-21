@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "eslint . --ext .ts",
+    "prettier": "prettier -w ./src",
     "build": "tsc",
     "start": "node .",
     "test": "jest",
@@ -29,6 +30,7 @@
     "@typescript-eslint/parser": "^4.5.0",
     "eslint": "^7.11.0",
     "jest": "^26.5.3",
+    "prettier": "^2.1.2",
     "ts-jest": "^26.4.1",
     "typescript": "^4.0.3"
   },
