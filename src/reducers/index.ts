@@ -5,15 +5,17 @@ import { reducer as characterReducer } from './character';
 import { CharacterActions } from '../actions/character';
 import { HealthActions } from '../actions/health';
 
-export interface SavedCharacter {
-  characterId: CharacterId;
-  character: Character;
-  health: Health;
-}
-
 export interface AppState {
   health: Map<CharacterId, Health>;
-  characters: Map<CharacterId, SavedCharacter>;
+  characters: Map<CharacterId, Character>;
+}
+
+type AllActions = CharacterActions | HealthActions;
+
+interface AppStore {
+  getCharacter: (CharacterId) => Character | undefined;
+  getHealth: (CharacterId) => Health | undefined;
+  dispatch: Dispatch<AllActions>;
 }
 
 // logs state changes for debugging purposes
@@ -30,14 +32,6 @@ export const store = createStore(
   }),
   applyMiddleware(logger)
 );
-
-type AllActions = CharacterActions | HealthActions;
-
-interface AppStore {
-  getCharacter: (CharacterId) => Character | undefined;
-  getHealth: (CharacterId) => Health | undefined;
-  dispatch: Dispatch<AllActions>;
-}
 
 const getCharacter = (characterId: CharacterId): Character | undefined => {
   const {characters} = store.getState().characters
